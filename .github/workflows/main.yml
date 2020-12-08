@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
-        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+        fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
     # Install Node 15
     - uses: actions/setup-node@v1
       with:
@@ -23,7 +23,7 @@ jobs:
     - name: Install Dependencies
       uses: Jaid/action-npm-install@v1.2.4
     - name: Run Script
-      uses: mujo-code/puppeteer-headful@master
+      uses: aa-forks/puppeteer-headful@master
       env:
         CI: 'true'
       with:
