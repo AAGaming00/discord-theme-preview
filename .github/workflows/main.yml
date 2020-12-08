@@ -26,10 +26,15 @@ jobs:
         PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
     - name: Run Script
       uses: aa-forks/puppeteer-headful@master
-      env:
-        CI: 'true'
       with:
         args: npm start
+      env: 
+        CI: 'true'
+        DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+        DISCORD_GUILD_CHANNEL_ID: ${{ secrets.DISCORD_GUILD_CHANNEL_ID }}
+        DISCORD_USER_MODAL_ID: ${{ secrets.DISCORD_USER_MODAL_ID }}
+        DISCORD_DM_ID: ${{ secrets.DISCORD_DM_ID }}
+        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
 
     - name: Commit files
       run: |
