@@ -14,14 +14,22 @@ jobs:
     - uses: actions/checkout@master
     - uses: c-hive/gha-npm-cache@v1
     - name: Install Dependencies
-      uses: actions/npm@master
-      env:
-        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-      with:
-        args: install
+      run:
+        npm install
     - name: Run Script
       uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
       with:
         args: npm start
+
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Update Preview" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
