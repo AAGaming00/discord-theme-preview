@@ -12,11 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+      with:
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
     # Install Node 15
     - uses: actions/setup-node@v1
       with:
         node-version: 15
-    - uses: c-hive/gha-npm-cache@v1
     - name: Cache Dependencies
       uses: egordm/gha-yarn-node-cache@v1
     - name: Install Dependencies
