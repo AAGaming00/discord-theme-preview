@@ -22,6 +22,8 @@ jobs:
       uses: egordm/gha-yarn-node-cache@v1
     - name: Install Dependencies
       uses: Jaid/action-npm-install@v1.2.4
+      env:
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
     - name: Run Script
       uses: aa-forks/puppeteer-headful@master
       env:
