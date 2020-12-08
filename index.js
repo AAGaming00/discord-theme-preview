@@ -32,18 +32,21 @@ async function capture(name, str) {
   console.log('Captured ' + name)
   const arr = name.split('/')
   arr[arr.length - 1] = arr[arr.length - 1] + '.html'
-  await writeFile(join(__dirname, 'discord', ...arr), str)
+  await writeFile(join(__dirname, 'web', 'discord', ...arr), str)
 }
 
 (async () => {
-  const browser = await puppeteer.launch({ devtools: true, userDataDir: 
-'./data' });
+  const browser = await puppeteer.launch({
+    executablePath: process.env.PUPPETEER_EXEC_PATH, // set by docker container
+    headless: false,
+  });
   await sleep(100)
   const page = await browser.newPage();
   const preloadFile = await readFile('./preload.js', 'utf8');
   await page.exposeFunction('capture', (name, str) => capture(name, str))
   await page.exposeFunction('shutdown', () => browser.close())
-  await page.evaluateOnNewDocument(`((token, rawEnv)=>{${preloadFile}})("${process.env.DISCORD_TOKEN}", "${Buffer.from(JSON.stringify(filterObject(process.env, (x) => x.startsWith('DISCORD_'))), 'binary').toString('base64')}")`);
+  await page.exposeFunction('getDiscordPreviewEnv', () => filterObject(process.env, (x) => x.startsWith('DISCORD_')))
+  await page.evaluateOnNewDocument(`((token)=>{${preloadFile}})("${process.env.DISCORD_TOKEN}")`);
   await page.goto('https://canary.discord.com/app', {timeout: 60000});
   // await browser.close();
 })();

@@ -2,7 +2,7 @@
 if (!localStorage.token) {
   localStorage.token = `"${token}"`
 }
-const env = JSON.parse(atob(rawEnv))
+const env = getDiscordPreviewEnv()
 // hide download nag
 if (!localStorage.hideNag) {
   localStorage.hideNag = 'true'
@@ -130,7 +130,13 @@ async function forceUpdateRoot() {
 }
 
 async function waitAndCapture (name, toWait, layerSelector, after) {
-  await waitFor(toWait)
+  if (typeof toWait === 'string') {
+    await waitFor(toWait)
+  } else {
+    for (const s of toWait) {
+      await waitFor(s)
+    }
+  }
   await capture(name, (await waitFor(layerSelector)).outerHTML)
   after && await waitFor(after)
 }
@@ -186,13 +192,21 @@ window.addEventListener('load', async () => {
 
     await forceUpdateRoot()
     // begin capturing stuff
-    const {layer, baseLayer, animating} = getByArray(['layer', 'baseLayer', 'animating'])
+    const {layers, layer, baseLayer, animating} = getByArray(['layer', 'baseLayer', 'animating'])
     const {popouts} = getByArray(['popouts', 'popout'])
     const {modal} = getByArray(['modal', 'inner'])
     await sleep(1000)
     const baseNode = document.querySelector('html').cloneNode(true)
     //const baseNode = new DOMParser().parseFromString(baseHtml, 'text/html')
-    baseNode.querySelector(`.${layer}`).outerHTML = '{{baseLayer}}'
+    const layersElem = baseNode.querySelector(`.${layers}`)
+    layersElem.classList.add('mainLayers')
+    layersElem.innerHTML = ''
+    baseNode.querySelector(`.${popouts} + div`).classList.add('oldModals')
+    baseNode.querySelectorAll('script').forEach(e => e?.remove())
+    baseNode.querySelectorAll('link[rel="stylesheet"]').forEach(e => {
+        e.removeAttribute('integrity')
+        e.href = e.href
+    })
     // base
     await capture('base', baseNode.outerHTML)
 
@@ -210,10 +224,11 @@ window.addEventListener('load', async () => {
     const {transitionTo} = getByString('transitionTo')
     const {messageContent} = getByString('messageContent')
     const {markup} = getByString('markup')
+    const {member, placeholder: placeholderMember} = getByArray(['member', 'placeholder'])
     const {flowerStar} = getByString('flowerStar')
 
     // guild channel
-    await captureRoute('layers/guildChannel', `/channels/${env.DISCORD_GUILD_ID}/${env.DISCORD_GUILD_CHANNEL_ID}`, `.${messageContent}.${markup}`, `.${layer}`)
+    await captureRoute('layers/guildChannel', `/channels/${env.DISCORD_GUILD_ID}/${env.DISCORD_GUILD_CHANNEL_ID}`, [`.${messageContent}.${markup}`, `.${member}:not([class*="${placeholderMember}"])`], `.${layer}`)
     
     // guild settings
     const {container} = getByArray(['container', 'clickable', 'header'])
