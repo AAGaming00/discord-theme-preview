@@ -42,7 +42,7 @@ async function capture(name, str) {
     args: process.env.CI ? [
       '--no-sandbox',
       '--disable-setuid-sandbox'
-    ] : void 0
+    ] : []
   });
   await sleep(100)
   const page = await browser.newPage();

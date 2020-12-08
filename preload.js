@@ -1,7 +1,4 @@
-// login
-if (!localStorage.token) {
-  localStorage.token = `"${token}"`
-}
+
 const env = getDiscordPreviewEnv()
 // hide download nag
 if (!localStorage.hideNag) {
@@ -165,6 +162,10 @@ window.addEventListener('load', async () => {
         console[method] =  console[method].__sentry_original__;
     }
   
+    // login
+    const {loginToken} = getByString('loginToken')
+    loginToken(token)
+
     await waitForConnect()
 
     // remove download app thing
