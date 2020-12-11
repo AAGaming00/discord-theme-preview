@@ -16,7 +16,23 @@
     <meta class="darkreader darkreader--user-agent" media="screen">
     <meta class="darkreader darkreader--sync" media="screen">
     <meta class="darkreader darkreader--override" media="screen">
-    <meta class="darkreader darkreader--cors" media="screen">
+    <script>
+        // Options for the observer (which mutations to observe)
+        var config = { childList: true };
+
+        // Callback function to execute when mutations are observed
+        var callback = function(mutationsList) {
+            for(var mutation of mutationsList) {
+                if (mutation.target.class?.includes('darkreader--cors')) mutation.target.remove()
+            }
+        };
+
+        // Create an observer instance linked to the callback function
+        var observer = new MutationObserver(callback);
+
+        // Start observing the target node for configured mutations
+        observer.observe(document.body, config);
+    </script>
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
