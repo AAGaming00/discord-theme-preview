@@ -67,13 +67,13 @@
       switch (dta.type) {
         case 'INSERT_CSS':
           const css = document.createElement('style')
-          css.innerHTML = dta.data
+          css.innerHTML = dta.css
           document.head.appendChild(css)
         break;
         case 'LINK_CSS':
           const link = document.createElement('link')
           link.rel = 'stylesheet'
-          link.href = dta.data
+          link.href = dta.url
           document.head.appendChild(link)
         break;
         default:
