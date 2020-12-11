@@ -1,10 +1,12 @@
 
-const env = getDiscordPreviewEnv()
 // hide download nag
 if (!localStorage.hideNag) {
   localStorage.hideNag = 'true'
 }
-
+// debugging stuff
+console.log = consoleLog
+console.warn = consoleWarn
+console.error = consoleError
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -45,7 +47,6 @@ const waitForGlobal = async (key) => {
     let el;
 
     while (!(el = window[key])) {
-        console.log('waiting for: ', key)
         await sleep(1)
     }
 
@@ -145,6 +146,7 @@ async function captureRoute (name, route, toWait, layerSelector, after) {
 }
 
 window.addEventListener('load', async () => {
+    const env = await getDiscordPreviewEnv()
     // wait for webpack
     await waitForGlobal('webpackJsonp')
 
@@ -163,18 +165,22 @@ window.addEventListener('load', async () => {
     }
   
     // login
-    const {loginToken} = getByString('loginToken')
-    loginToken(token)
+    const tokenManager = getByString('loginToken')
+    tokenManager.loginToken(env.DISCORD_TOKEN)
 
+    const loginTimeout = setTimeout(() => {
+      log('login failed')
+      shutdown(1)
+    }, 2000e3);
+    log('logging in')
     await waitForConnect()
-
+    log('logged in')
+    clearTimeout(loginTimeout)
     // remove download app thing
     const guildClasses = getByArray(['guilds', 'downloadProgressCircle']);
-    console.log(guildClasses)
     const sidebar = await waitFor(`.${guildClasses.guilds}`);
     console.dir(sidebar)
     const instance = getOwnerInstance(sidebar, true);
-    console.log(instance)
     inject(instance.type.prototype, 'render', function (_, res) {
         if (!this.props.disableAppDownload) {
             this.props.disableAppDownload = true
