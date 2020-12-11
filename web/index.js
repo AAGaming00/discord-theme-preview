@@ -5,14 +5,14 @@
     layerCache['layers/friends'] = await layerCache['layers/friends']
     const select = document.createElement('select')
     function changeHref (e) {
-      return e.replace(new RegExp(location.origin, 'g'), 'https://canary.discord.com')
+      return e.replace(new RegExp(location.origin, 'g'), 'https://discord.com')
     }
 
     function parse(html) {
       const elem = new DOMParser().parseFromString(html, 'text/html')
       elem.querySelectorAll('img').forEach(e => e.src = changeHref(e.src))
       elem.querySelectorAll('[style*="background-image"]')
-      .forEach(({ style }) => style.backgroundImage = style.backgroundImage.replace(/(\/assets)(?!https:\/\/canary\.discord\.com)/g, 'https://canary.discord.com$1'))
+      .forEach(({ style }) => style.backgroundImage = style.backgroundImage.replace(/(\/assets)(?!https:\/\/canary\.discord\.com)/g, 'https://discord.com$1'))
       const fragment = document.createDocumentFragment();
       elem.body.childNodes.forEach(e => fragment.appendChild(e))
       return fragment
@@ -86,7 +86,7 @@
     document.body.classList = baseDom.body.classList
     Array.from(baseDom.body.childNodes).forEach(e => document.body.appendChild(e))
     Array.from(baseDom.head.childNodes).forEach(e => document.head.appendChild(e))
-    document.querySelector('link[rel="stylesheet"][href*="canary.discord.com"]').onload = () => {
+    document.querySelector('link[rel="stylesheet"][href*="discord.com"]').onload = () => {
       setTimeout(() => {
         const spinner = document.querySelector('.spinnerContainer')
         spinner.classList.add('fadeout')
