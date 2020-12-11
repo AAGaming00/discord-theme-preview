@@ -40,7 +40,7 @@ async function capture(name, str) {
   const oldBuild = await readFile('.build', 'utf8')
   const build = await fetcher('stable')
   console.log(build)
-  if (build.buildID === oldBuild){
+  if (build.buildHash === oldBuild){
     console.log(chalk.yellow('Build hasn\'t changed, cancelling'))
     return
   }
@@ -59,7 +59,7 @@ async function capture(name, str) {
   await page.exposeFunction('capture', (name, str) => capture(name, str))
   await page.exposeFunction('shutdown', async (code = 0) => {
     if (code === 0) {
-      await writeFile('.build', build.buildID)
+      await writeFile('.build', build.buildHash)
     }
     await browser.close();
     await process.exit(code)
