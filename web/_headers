@@ -1,2 +1,2 @@
 /
-    X-Frame-Options: 8
+    X-Frame-Options: *
