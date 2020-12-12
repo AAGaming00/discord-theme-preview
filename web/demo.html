@@ -18,8 +18,11 @@
     <script src="https://discord-theme-preview.netlify.app/lib/api.js"></script>
     <script>
         'use strict';
-        const previewer = new ThemePreview(document.getElementById('preview'))
-        previewer.linkStylesheet('https://raw.githack.com/Snapperito/Dark-Discord/master/custom.css')
+        const preview = document.getElementById('preview')
+        preview.addEventListener('load', () => {
+            const previewer = new ThemePreview()
+            previewer.linkStylesheet('https://raw.githack.com/Snapperito/Dark-Discord/master/custom.css')
+        })
     </script>
 </body>
 </html>

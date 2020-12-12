@@ -89,6 +89,7 @@
     document.querySelector('link[rel="stylesheet"][href*="discord.com"]').onload = () => {
       setTimeout(() => {
         const spinner = document.querySelector('.spinnerContainer')
+        window.top && window.top.postMessage('PREVIEW_READY', '*')
         spinner.classList.add('fadeout')
         setTimeout(() => {
           spinner.remove()
