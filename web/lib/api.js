@@ -1,5 +1,5 @@
 
-window.ThemePreviewer = class ThemePreviewer {
+window.ThemePreview = class ThemePreview {
     constructor (frame) {
         this.frame = frame
     }
