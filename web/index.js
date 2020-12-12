@@ -2,7 +2,12 @@
     let currentLayer;
     let lastLayer;
     window.addEventListener("message", (event) => {
-      const dta = JSON.parse(event.data)
+      let dta
+      try {
+      dta = JSON.parse(event.data)
+      } catch {
+        return
+      }
       switch (dta.type) {
         case 'INSERT_CSS':
           const css = document.createElement('style')
@@ -45,10 +50,10 @@
       if (!container.classList.contains('oldModals')) {
         lastLayer = currentLayer
         currentLayer = name
-        container.querySelectorAll('.wrapper-1BJsBx')?.forEach(e => e?.addEventListener('click', () => loadLayer(e.getAttribute('href').includes('@me') ? 'layers/DMChannel' : 'layers/guildChannel', container)))
+        container.querySelectorAll('.wrapper-1BJsBx:not([data-list-item-id="guildsnav___home"])')?.forEach(e => e?.addEventListener('click', () => loadLayer(e.getAttribute('href').includes('@me') ? 'layers/DMChannel' : 'layers/guildChannel', container)))
         container.querySelector('[data-list-item-id="guildsnav___home"]')?.addEventListener('click', () => loadLayer('layers/friends', container))
         container.querySelector('[data-list-item-id="guildsnav___guild-discover-button"]')?.addEventListener('click', () => loadLayer('layers/guildDiscovery', container))
-        container.querySelectorAll('.channel-2QD9_O')?.forEach(c => c.addEventListener('click', e => {
+        container.querySelectorAll('.channel-2QD9_O:not([id="private-channels-0"])')?.forEach(c => c.addEventListener('click', e => {
           e.preventDefault()
           loadLayer('layers/DMChannel', container)
         }))
