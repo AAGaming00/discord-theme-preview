@@ -38,7 +38,7 @@ async function capture(name, str) {
 
 (async () => {
   const oldBuild = await readFile('.build', 'utf8')
-  const build = await fetcher('stable')
+  const build = await fetcher('canary')
   console.log(build)
   if (build.buildHash === oldBuild){
     console.log(chalk.yellow('Build hasn\'t changed, cancelling'))
