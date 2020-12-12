@@ -5,7 +5,7 @@ window.ThemePreview = class ThemePreview {
     }
 
     postToFrame (data) {
-        this.frame.postMessage(JSON.stringify(data), '*')
+        this.frame.contentWindow.postMessage(JSON.stringify(data), '*')
     }
 
     linkStylesheet (url) {
