@@ -5,11 +5,12 @@
     <title>Theme Previewer Demo</title>
 </head>
 <body>
-    <iframe src="https://discord-theme-preview.netlify.app" ></iframe>
+    <iframe id="preview" src="https://discord-theme-preview.netlify.app" ></iframe>
     <script src="https://discord-theme-preview.netlify.app/lib/api.js"></script>
     <script>
         'use strict';
-        const previewer = new ThemePreview
+        const previewer = new ThemePreview(document.getElementById('preview'))
+        previewer.linkStylesheet('https://raw.githack.com/Snapperito/Dark-Discord/master/custom.css')
     </script>
 </body>
 </html>
