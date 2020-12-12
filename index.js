@@ -70,6 +70,6 @@ async function capture(name, str) {
   await page.exposeFunction('consoleError', (...e) => console.error(chalk.red('[DISCORD ERROR] ' + e.join(' '))))
   await page.exposeFunction('getDiscordPreviewEnv', () => filterObject(process.env, (x) => x.startsWith('DISCORD_')))
   await page.evaluateOnNewDocument(`((token)=>{${preloadFile}})("${process.env.DISCORD_TOKEN}")`);
-  await page.goto('https://discord.com/app', {timeout: 60000});
+  await page.goto('https://canary.discord.com/app', {timeout: 60000});
   // await browser.close();
 })();

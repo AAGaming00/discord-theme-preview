@@ -12,7 +12,7 @@
       const elem = new DOMParser().parseFromString(html, 'text/html')
       elem.querySelectorAll('img').forEach(e => e.src = changeHref(e.src))
       elem.querySelectorAll('[style*="background-image"]')
-      .forEach(({ style }) => style.backgroundImage = style.backgroundImage.replace(/(\/assets)(?!https:\/\/canary\.discord\.com)/g, 'https://discord.com$1'))
+      .forEach(({ style }) => style.backgroundImage = style.backgroundImage.replace(/(\/assets)(?!https:\/\/(?:canary|ptb\.)?discord\.com)/g, 'https://discord.com$1'))
       const fragment = document.createDocumentFragment();
       elem.body.childNodes.forEach(e => fragment.appendChild(e))
       return fragment
