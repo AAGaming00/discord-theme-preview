@@ -1,6 +1,24 @@
 (async()=>{
     let currentLayer;
     let lastLayer;
+    window.addEventListener("message", (event) => {
+      const dta = JSON.parse(event.data)
+      switch (dta.type) {
+        case 'INSERT_CSS':
+          const css = document.createElement('style')
+          css.innerHTML = dta.css
+          document.head.appendChild(css)
+        break;
+        case 'LINK_CSS':
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = dta.url
+          document.head.appendChild(link)
+        break;
+        default:
+        break;
+      }
+    }, false);
     const base = await layerCache.base
     layerCache['layers/friends'] = await layerCache['layers/friends']
     const select = document.createElement('select')
@@ -61,25 +79,6 @@
     select.add(createOption('Discover', 'layers/guildDiscovery'))
     select.add(createOption('Settings', 'layers/settings'))
     select.add(createOption('User', 'modals/user', true))
-
-    window.addEventListener("message", (event) => {
-      const dta = JSON.parse(event.data)
-      switch (dta.type) {
-        case 'INSERT_CSS':
-          const css = document.createElement('style')
-          css.innerHTML = dta.css
-          document.head.appendChild(css)
-        break;
-        case 'LINK_CSS':
-          const link = document.createElement('link')
-          link.rel = 'stylesheet'
-          link.href = dta.url
-          document.head.appendChild(link)
-        break;
-        default:
-        break;
-      }
-    }, false);
 
     const baseDom = new DOMParser().parseFromString(base, 'text/html')
     document.documentElement.classList = baseDom.documentElement.classList

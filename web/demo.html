@@ -20,7 +20,9 @@
         'use strict';
         const preview = document.getElementById('preview')
         preview.addEventListener('load', () => {
-            const previewer = new ThemePreview()
+            console.log('loaded')
+            const previewer = new ThemePreview(preview)
+            window.previewer = previewer
             previewer.linkStylesheet('https://raw.githack.com/Snapperito/Dark-Discord/master/custom.css')
         })
     </script>
