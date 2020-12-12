@@ -57,6 +57,7 @@
           loadLayer('layers/friends', container)
         })
         container.querySelector('.container-3baos1 .flex-1xMQg5:last-child')?.addEventListener('click', () => loadLayer('layers/settings', container))
+        container.querySelector('.container-1taM1r.clickable-25tGDB > .header-2V-4Sw')?.addEventListener('click', () => loadLayer('layers/guildSettings', container))
         container.querySelector('.closeButton-1tv5uR')?.addEventListener('click', () => loadLayer(lastLayer, container))
         select.value = name
       } else {
@@ -78,6 +79,7 @@
     select.add(createOption('DM Channel', 'layers/DMChannel'))
     select.add(createOption('Discover', 'layers/guildDiscovery'))
     select.add(createOption('Settings', 'layers/settings'))
+    select.add(createOption('Guild Settings', 'layers/guildSettings'))
     select.add(createOption('User', 'modals/user', true))
 
     const baseDom = new DOMParser().parseFromString(base, 'text/html')
