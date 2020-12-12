@@ -59,6 +59,7 @@
         container.querySelector('.container-3baos1 .flex-1xMQg5:last-child')?.addEventListener('click', () => loadLayer('layers/settings', container))
         container.querySelector('.container-1taM1r.clickable-25tGDB > .header-2V-4Sw')?.addEventListener('click', () => loadLayer('layers/guildSettings', container))
         container.querySelector('.closeButton-1tv5uR')?.addEventListener('click', () => loadLayer(lastLayer, container))
+        container.querySelectorAll('[id*="react-select"]')?.forEach(e => e?.remove())
         select.value = name
       } else {
         container.querySelector('.backdrop-1wrmKB')?.addEventListener('click', () => container.innerHTML = '')
