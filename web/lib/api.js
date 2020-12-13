@@ -1,4 +1,3 @@
-
 window.ThemePreview = class ThemePreview {
     constructor (frame) {
         this.frame = frame
@@ -11,6 +10,13 @@ window.ThemePreview = class ThemePreview {
     linkStylesheet (url) {
         this.postToFrame({
             type: 'LINK_CSS',
+            url
+        })
+    }
+
+    linkSass (url) {
+        this.postToFrame({
+            type: 'LINK_SASS',
             url
         })
     }

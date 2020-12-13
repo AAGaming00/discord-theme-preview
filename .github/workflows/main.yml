@@ -10,6 +10,8 @@ jobs:
   updatePreview:
     name: Update Preview
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./action
     steps:
     - uses: actions/checkout@master
       with:
@@ -20,10 +22,13 @@ jobs:
         node-version: 15
     - name: Cache Dependencies
       uses: egordm/gha-yarn-node-cache@v1
+      env:
+        working-directory: ${{ env.working-directory }}
     - name: Install Dependencies
       uses: Jaid/action-npm-install@v1.2.4
       env:
         PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+        working-directory: ${{ env.working-directory }}
     - name: Run Script
       uses: aa-forks/puppeteer-headful@master
       with:
@@ -35,7 +40,7 @@ jobs:
         DISCORD_USER_MODAL_ID: ${{ secrets.DISCORD_USER_MODAL_ID }}
         DISCORD_DM_ID: ${{ secrets.DISCORD_DM_ID }}
         DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-
+        working-directory: ${{ env.working-directory }}
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"

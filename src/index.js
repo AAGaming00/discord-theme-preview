@@ -1,7 +1,10 @@
+import {hide as hideSplash, show as showSplash} from './splash';
+
 (async()=>{
+    let layerCache = window.layerCache
     let currentLayer;
     let lastLayer;
-    window.addEventListener("message", (event) => {
+    window.addEventListener("message", async (event) => {
       let dta
       try {
       dta = JSON.parse(event.data)
@@ -20,10 +23,19 @@
           link.href = dta.url
           document.head.appendChild(link)
         break;
+        case 'LINK_SASS':
+          const {default: compileSassFromUrl} = await import('./sass')
+          const renderedSass = await compileSassFromUrl('https://raw.githubusercontent.com/LuckFire/Midnight-Mars/main/index.scss')
+          console.log(renderedSass)
+          const sassElem = document.createElement('style')
+          sassElem.innerHTML = renderedSass
+          document.head.appendChild(sassElem)
+        break;
         default:
         break;
       }
     }, false);
+    showSplash()
     const base = await layerCache.base
     layerCache['layers/friends'] = await layerCache['layers/friends']
     const select = document.createElement('select')
@@ -43,7 +55,7 @@
 
     async function loadLayer(name, container) {
       if (currentLayer === name) return
-      window.layerCache[name] = window.layerCache[name] || await fetch(`./discord/${name}`)
+      window.layerCache[name] = window.layerCache[name] || await fetch(`./discord/${name}.html`)
       .then(r=>r.text())
       container.innerHTML = ''
       container.appendChild(parse(window.layerCache[name]))
@@ -95,12 +107,7 @@
     Array.from(baseDom.head.childNodes).forEach(e => document.head.appendChild(e))
     document.querySelector('link[rel="stylesheet"][href*="discord.com"]').onload = () => {
       setTimeout(() => {
-        const spinner = document.querySelector('.spinnerContainer')
-        window.top && window.top.postMessage('PREVIEW_READY', '*')
-        spinner.classList.add('fadeout')
-        setTimeout(() => {
-          spinner.remove()
-        }, 500);
+        hideSplash()
       }, 1000);
     }
     const layers = document.querySelector('.mainLayers')

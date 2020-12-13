@@ -31,17 +31,15 @@
 
 
 
-  body {
+body {
     overflow: hidden;
     padding: 0;
     margin: 0;
+    background-color: #2f3136;
 }
 :root, body, .container {
     height: 100%;
     width: 100%;
-}
-.spinnerContainer {
-    background-color: #2f3136;
 }
 .discord {
     border: 0;
@@ -50,10 +48,11 @@
     left: 0;
     top: 0;
 }
-.spinnerContainer {
+.splashContainer {
     display: flex;
     justify-content: center;
     align-items:center;
+    flex-direction: column;
     left: 0;
     top: 0;
     width: 100vw;
@@ -62,13 +61,41 @@
     transition: opacity 0.2s ease-in-out;
     opacity: 1;
     z-index: 100;
+    background-color: #2f3136;
 }
+.splashLog-container {
+  display: flex;
+  align-items:center;
+  flex-direction: column;
+  max-height: 500px;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+.splashLog-line {
+  animation: log-slideup 0.5s ease-in-out;
+  font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;
+  color: var(--interactive-normal);
+}
+
+@keyframes log-slideup {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
 .spinner {
-    margin: 100px auto;
     height: 200px;
     width: 200px;
-    position: relative;
-  }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
   .fadeout {
       opacity: 0
   }
