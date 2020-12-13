@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><script>layerCache = []
+        layerCache.base=fetch('./discord/base.html').then(r=>r.text());
+        layerCache['layers/friends']=fetch('./discord/layers/friends.html').then(r=>r.text());</script><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta class="darkreader darkreader--fallback" media="screen"><meta class="darkreader darkreader--text" media="screen"><meta class="darkreader darkreader--invert" media="screen"><meta class="darkreader darkreader--inline" media="screen"><meta class="darkreader darkreader--variables" media="screen"><meta class="darkreader darkreader--proxy"><meta class="darkreader darkreader--user-agent" media="screen"><meta class="darkreader darkreader--sync" media="screen"><meta class="darkreader darkreader--override" media="screen"><link rel="stylesheet" href="./index.css"></head><body><script>var observer = new MutationObserver((mutationsList) => {
+            for(var mutation of mutationsList) {
+                if (mutation.addedNodes[0] && mutation.addedNodes[0].classList?.contains('darkreader--cors')) mutation.addedNodes[0].remove()
+            }
+        });
+        observer.observe(document.head, { childList: true });</script><script src="main.js"></script></body></html>
