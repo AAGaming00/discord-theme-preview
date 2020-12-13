@@ -10,9 +10,6 @@ jobs:
   updatePreview:
     name: Update Preview
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: action
     steps:
     - uses: actions/checkout@master
       with:
