@@ -33,7 +33,7 @@ async function capture(name, str) {
   console.log(chalk.green('Captured ' + name))
   const arr = name.split('/')
   arr[arr.length - 1] = arr[arr.length - 1] + '.html'
-  await writeFile(join(__dirname, '..', 'web', 'discord', ...arr), str)
+  await writeFile(join(__dirname, 'web', 'discord', ...arr), str)
 }
 
 (async () => {
