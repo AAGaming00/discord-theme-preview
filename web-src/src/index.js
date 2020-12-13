@@ -26,7 +26,6 @@ import {hide as hideSplash, show as showSplash} from './splash';
         case 'LINK_SASS':
           const {default: compileSassFromUrl} = await import('./sass')
           const renderedSass = await compileSassFromUrl('https://raw.githubusercontent.com/LuckFire/Midnight-Mars/main/index.scss')
-          console.log(renderedSass)
           const sassElem = document.createElement('style')
           sassElem.innerHTML = renderedSass
           document.head.appendChild(sassElem)
@@ -55,7 +54,7 @@ import {hide as hideSplash, show as showSplash} from './splash';
 
     async function loadLayer(name, container) {
       if (currentLayer === name) return
-      window.layerCache[name] = window.layerCache[name] || await fetch(`./discord/${name}`)
+      window.layerCache[name] = window.layerCache[name] || await fetch(`./discord/${name.toLowerCase()}.html`)
       .then(r=>r.text())
       container.innerHTML = ''
       container.appendChild(parse(window.layerCache[name]))
