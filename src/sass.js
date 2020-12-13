@@ -22,13 +22,11 @@ function fetchContents (path, done) {
 }
 
 function importer(url, prevurl, done, startfile) {
-    console.log(arguments)
     const prev = prevurl.includes('.scss') ? prevurl.substring(0, prevurl.lastIndexOf('/')) : prevurl
     const starturl = startfile.substring(0, startfile.lastIndexOf('/'))
     const urlpath = join(prev !== 'stdin' ? prev : url, prev !== 'stdin' ? url : '')
     const path = join(starturl, urlpath)
     const pathwithext = path.includes('.') ? path : path + '.scss'
-    console.log({pathwithext, path, urlpath, url, prev, starturl})
     log(`Compiling ${url}`)
     fetchContents(underscoreify(pathwithext), done)
     .catch(() => fetchContents(pathwithext, done)
@@ -43,8 +41,6 @@ export default async function(url) {
     showSplash()
     log(`Fetching main SCSS file`)
     const sassString = await fetch(url).then(r => r.text())
-    console.log({sassString})
-    console.log(buf)
     window.Buffer = buf.Buffer
     // bad hack required to get dart sass working
     const oldCreate = Object.create
