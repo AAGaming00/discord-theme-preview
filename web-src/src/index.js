@@ -55,7 +55,7 @@ import {hide as hideSplash, show as showSplash} from './splash';
 
     async function loadLayer(name, container) {
       if (currentLayer === name) return
-      window.layerCache[name] = window.layerCache[name] || await fetch(`./discord/${name}.html`)
+      window.layerCache[name] = window.layerCache[name] || await fetch(`./discord/${name}`)
       .then(r=>r.text())
       container.innerHTML = ''
       container.appendChild(parse(window.layerCache[name]))
