@@ -25,6 +25,11 @@
         preview.addEventListener('load', () => {
             const previewer = new ThemePreview(preview)
             previewer.linkSass('https://raw.githubusercontent.com/LuckFire/Midnight-Mars/main/index.scss')
+            previewer.injectCSS(`
+            .select {
+                margin-left: 70px;
+            }
+            `)
         })
     </script>
 </body>

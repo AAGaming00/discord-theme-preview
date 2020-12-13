@@ -107,7 +107,6 @@ body {
     top: 0;
     left: 72px;
     border: 0;
-    height: 22px;
 }
 .select option {
   background-color: var(--background-tertiary);
