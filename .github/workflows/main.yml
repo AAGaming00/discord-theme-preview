@@ -24,10 +24,9 @@ jobs:
       uses: Jaid/action-npm-install@v1.2.4
       env:
         PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-    - name: Turnstyle
-      uses: softprops/turnstyle@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: n1hility/cancel-previous-runs@v2
+      with: 
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Run Script
       uses: aa-forks/puppeteer-headful@master
       with:
