@@ -42,14 +42,6 @@ export default async function(url) {
     log(`Fetching main SCSS file`)
     const sassString = await fetch(url).then(r => r.text())
     window.Buffer = buf.Buffer
-    // bad hack required to get dart sass working
-    const oldCreate = Object.create
-    Object.create = (...args) => {
-        if (args[0] && args[0].window) {
-            return window
-        }
-        return oldCreate(...args)
-    }
     log('Importing Sass')
     const {render: renderCb} = await import('sass')
     const render = promisify(renderCb)
@@ -61,7 +53,6 @@ export default async function(url) {
         data: sassString,
         importer: (...args) => importer(...args, url)
     })
-    Object.create = oldCreate
     delete window.Buffer
     setPreventHide(false)
     hideSplash()

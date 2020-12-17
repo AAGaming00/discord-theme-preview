@@ -25,7 +25,7 @@ import {hide as hideSplash, show as showSplash} from './splash';
         break;
         case 'LINK_SASS':
           const {default: compileSassFromUrl} = await import('./sass')
-          const renderedSass = await compileSassFromUrl('https://raw.githubusercontent.com/LuckFire/Midnight-Mars/main/index.scss')
+          const renderedSass = await compileSassFromUrl(dta.url)
           const sassElem = document.createElement('style')
           sassElem.innerHTML = renderedSass
           document.head.appendChild(sassElem)

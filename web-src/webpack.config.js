@@ -27,7 +27,9 @@ const webpack = require('webpack');
 
 const TerserPlugin = require('terser-webpack-plugin');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const StringReplacePlugin = require('string-replace-webpack-plugin');
 
 
 module.exports = {
@@ -49,14 +51,28 @@ module.exports = {
     // Load a custom template (lodash by default)
     filename: 'index.html',
     template: path.join('src', 'index.html')
-  })],
+  }),
+  new StringReplacePlugin()
+  ],
 
   module: {
     rules: [{
       test: /\.(js|jsx)$/,
       include: [path.resolve(__dirname, 'src')],
       loader: 'babel-loader'
-    }]
+    },
+    { 
+      test: /sass\.dart\.js$/,
+      use: StringReplacePlugin.replace({
+          replacements: [
+              {
+                  pattern: /Object\.create\(dartNodePreambleSelf\)/ig,
+                  replacement: () => 'dartNodePreambleSelf'
+              }
+          ]
+        })
+      }
+    ]
   },
 
   optimization: {
