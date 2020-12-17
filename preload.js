@@ -175,6 +175,8 @@ window.addEventListener('load', async () => {
     log('logging in')
     await waitForConnect()
     log('logged in')
+    await sleep(5000)
+    document.querySelectorAll(`.${getByArray(['closeButton', 'noticeBrand'])}`).forEach(e => e?.click())
     clearTimeout(loginTimeout)
     // remove download app thing
     const guildClasses = getByArray(['guilds', 'downloadProgressCircle']);
