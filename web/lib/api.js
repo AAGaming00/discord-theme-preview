@@ -75,6 +75,7 @@ class ThemePreviewElement extends HTMLElement {
             this.preview.linkStylesheet(this.getAttribute('src'));
             break;
         }
+        if (this.getAttribute('css')) this.preview.injectCSS(this.getAttribute('css'))
     }
 }
 
