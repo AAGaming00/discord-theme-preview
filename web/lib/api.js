@@ -51,6 +51,8 @@ class ThemePreviewElement extends HTMLElement {
         const frame = document.createElement('iframe');
         this.preview = new ThemePreview(frame)
         frame.addEventListener('load', () => this.setupFrame())
+        frame.style = 'width: 100%;height: 100%;border: 0;'
+
         frame.src = 'https://discord-theme-preview.netlify.app';
 
         shadow.appendChild(frame)
