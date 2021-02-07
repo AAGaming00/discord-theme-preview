@@ -69,7 +69,7 @@ class ThemePreviewElement extends HTMLElement {
         }
         switch (this.getAttribute('type')) {
             case 'scss':
-            this.preview.linkSass(this.getAttribute('type'));
+            this.preview.linkSass(this.getAttribute('src'));
             break;
             default:
             this.preview.linkStylesheet(this.getAttribute('src'));
