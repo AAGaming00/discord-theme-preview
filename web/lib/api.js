@@ -27,4 +27,53 @@ window.ThemePreview = class ThemePreview {
             css
         })
     }
+
+    removeAllInserted () {
+        this.postToFrame({
+            type: 'REMOVE_LINKS'
+        })
+    }
+
+    updateOptions (opts) {
+        this.postToFrame({
+            type: 'SET_OPTIONS',
+            opts
+        })
+    }
 }
+
+class ThemePreviewElement extends HTMLElement {
+    constructor () {
+        super();
+
+        const shadow = this.attachShadow({mode: 'open'});
+
+        const frame = document.createElement('iframe');
+        this.preview = new ThemePreview(frame)
+        frame.addEventListener('load', () => this.setupFrame())
+        frame.src = 'https://discord-theme-preview.netlify.app';
+
+        shadow.appendChild(frame)
+    }
+
+    attributeChangedCallback () {
+        this.setupFrame();
+    }
+
+    setupFrame () {
+        if (this.ready) {
+            this.preview.removeAllInserted();
+            this.ready = true;
+        }
+        switch (this.getAttribute('type')) {
+            case 'scss':
+            this.preview.linkSass(this.getAttribute('type'));
+            break;
+            default:
+            this.preview.linkStylesheet(this.getAttribute('src'));
+            break;
+        }
+    }
+}
+
+customElements.define('discord-preview', ThemePreviewElement)

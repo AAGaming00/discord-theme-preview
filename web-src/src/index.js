@@ -4,6 +4,26 @@ import {hide as hideSplash, show as showSplash} from './splash';
     let layerCache = window.layerCache
     let currentLayer;
     let lastLayer;
+    let options = {};
+    let inserted = [];
+
+    function linkCSS (url) {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      document.head.appendChild(link)
+      inserted.push(link)
+    }
+
+    async function linkSass (url) {
+      const {default: compileSassFromUrl} = await import('./sass')
+      const renderedSass = await compileSassFromUrl(url)
+      const sassElem = document.createElement('style')
+      sassElem.innerHTML = renderedSass
+      document.head.appendChild(sassElem)
+      inserted.push(sassElem)
+    }
+
     window.addEventListener("message", async (event) => {
       let dta
       try {
@@ -18,17 +38,17 @@ import {hide as hideSplash, show as showSplash} from './splash';
           document.head.appendChild(css)
         break;
         case 'LINK_CSS':
-          const link = document.createElement('link')
-          link.rel = 'stylesheet'
-          link.href = dta.url
-          document.head.appendChild(link)
+        linkCSS(dta.url)
         break;
         case 'LINK_SASS':
-          const {default: compileSassFromUrl} = await import('./sass')
-          const renderedSass = await compileSassFromUrl(dta.url)
-          const sassElem = document.createElement('style')
-          sassElem.innerHTML = renderedSass
-          document.head.appendChild(sassElem)
+        linkSass(dta.url)
+        break;
+        case 'SET_OPTIONS':
+          Object.assign(options, dta.opts)
+        break;
+        case 'REMOVE_LINKS':
+          inserted.forEach(e => e?.remove());
+          inserted = [];
         break;
         default:
         break;
@@ -104,11 +124,22 @@ import {hide as hideSplash, show as showSplash} from './splash';
     document.body.classList = baseDom.body.classList
     Array.from(baseDom.body.childNodes).forEach(e => document.body.appendChild(e))
     Array.from(baseDom.head.childNodes).forEach(e => document.head.appendChild(e))
-    document.querySelector('link[rel="stylesheet"][href*="discord.com"]').onload = () => {
+    document.querySelector('link[rel="stylesheet"][href*="discord.com"]').addEventListener('load', () => {
+      if (location.search) {
+        const params = new URLSearchParams(location.search);
+        switch (params.has('type') && params.get('type')) {
+          case 'scss':
+          linkSass(params.get('src'));
+          break;
+          default:
+          linkCSS(params.get('src'));
+          break;
+        }
+      }
       setTimeout(() => {
         hideSplash()
       }, 1000);
-    }
+    });
     const layers = document.querySelector('.mainLayers')
     const oldModals = document.querySelector('.oldModals')
     await loadLayer('layers/friends', layers)

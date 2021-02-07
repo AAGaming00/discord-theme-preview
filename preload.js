@@ -142,6 +142,20 @@ async function waitAndCapture (name, toWait, layerSelector, after) {
 async function captureRoute (name, route, toWait, layerSelector, after) {
   const {transitionTo} = getByString('transitionTo')
   transitionTo(route)
+
+  // // before capture logic
+
+  // const {nameTag, canCopy, usernameContainer} = getByArray(['nameTag', 'canCopy'])
+  // const subtext = getModule(m => m.subtext && Object.keys(m).length === 1)
+
+  // const username = document.querySelector(`.${nameTag}.${canCopy} > .${usernameContainer} > div`)
+  // username.innerHTML = ''
+  // username.dataset.previewName = ''
+
+  // const discrim = document.querySelector(`.${nameTag}.${canCopy} > .${subtext}`)
+  // discrim.innerHTML = ''
+  // discrim.dataset.previewName = ''
+
   return await waitAndCapture(name, toWait, layerSelector, after)
 }
 
@@ -176,12 +190,11 @@ window.addEventListener('load', async () => {
     await waitForConnect()
     log('logged in')
     await sleep(5000)
-    document.querySelectorAll(`.${getByArray(['closeButton', 'noticeBrand'])}`).forEach(e => e?.click())
+    document.querySelectorAll(`.${getByArray(['notice', 'closeButton', 'colorPremium'])?.closeButton}`).forEach(e => e?.click())
     clearTimeout(loginTimeout)
     // remove download app thing
     const guildClasses = getByArray(['guilds', 'downloadProgressCircle']);
     const sidebar = await waitFor(`.${guildClasses.guilds}`);
-    console.dir(sidebar)
     const instance = getOwnerInstance(sidebar, true);
     inject(instance.type.prototype, 'render', function (_, res) {
         if (!this.props.disableAppDownload) {
@@ -260,11 +273,6 @@ window.addEventListener('load', async () => {
     
     // guild discovery
     await captureRoute('layers/guildDiscovery', '/guild-discovery', `.${flowerStar}`, `.${layer}`)
-    
-
-
-
-
 
     shutdown()
 })

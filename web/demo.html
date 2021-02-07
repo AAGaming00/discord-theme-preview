@@ -14,18 +14,11 @@
             border: 0;
         }
     </style>
+    <script src="https://discord-theme-preview.netlify.app/lib/api.js"></script>
 </head>
 <body>
     Dark Discord by Snapperito
-    <iframe class="preview-frame" id="preview" src="https://discord-theme-preview.netlify.app" ></iframe>
-    <script src="https://discord-theme-preview.netlify.app/lib/api.js"></script>
-    <script>
-        'use strict';
-        const preview = document.getElementById('preview')
-        preview.addEventListener('load', () => {
-            const previewer = new ThemePreview(preview)
-            previewer.linkStylesheet('https://raw.githack.com/Snapperito/Dark-Discord/master/custom.css')
-        })
-    </script>
+    <discord-preview class="preview-frame" src="https://raw.githack.com/snappercord/dark-discord/master/source.css" ></discord-preview>
+
 </body>
 </html>
