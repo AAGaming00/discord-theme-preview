@@ -262,7 +262,7 @@ window.addEventListener('load', async () => {
     await waitFor(`.${baseLayer}:not([style^="opacity"])`)
   
     // user profile modal
-    getByArray([ 'fetchProfile', 'open' ]).open(env.DISCORD_USER_MODAL_ID);
+    getByArray([ 'fetchProfile', 'open' ]).open({ userId: env.DISCORD_USER_MODAL_ID });
     await waitAndCapture('modals/user', `.${modal}[style="opacity: 1; transform: scale(1) translateZ(0px);"]`, `.${popouts} + div`)
     const {popAll: popModals} = getByString('popWithKey')
     popModals()
